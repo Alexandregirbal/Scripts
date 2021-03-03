@@ -1,6 +1,7 @@
 #1: change the name of this file to "config.py"
 #2: change every field of this config file as you wish
 
+pdfName = "sample.pdf"
 firstName = "John" #case IS NOT important
 lastName = "John" #case IS NOT important
 genres = ["Monsieur", "Madame"] #do not change
