@@ -1,6 +1,6 @@
 from pdf_annotate import PdfAnnotator, Location, Appearance
 from random import randint
-from config import *
+from config import * # pylint: disable=unused-wildcard-import
 def annotatePDF(pathToPDF):
     try:
         randomNumber1 = str(randint(0,9))
