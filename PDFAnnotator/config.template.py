@@ -12,3 +12,5 @@ birthDate = "01/01/1950" #format: DD/MM/YYYY
 date = "31/12/20" #format: DD/MM/YY
 hour = "09H12" #format: hh mm (do not forget the H)
 beautifulDate = "lundi 31 décembre 2020" #Must be the same date as the "date" parameter - format: dayOfWeek DD month YYYY - case IS important
+
+#Get template here: https###drive.google.com/file/d/10qm3V1Y7E7s4Up4ELXcAmuwbTjneZe_B/view?usp=sharing
