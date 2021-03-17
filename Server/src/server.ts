@@ -2,9 +2,10 @@ require('dotenv').config()
 import "module-alias/register";
 import express, { Request, Response, NextFunction } from "express";
 import routes from './Routes'
+import {PORT} from './config'
 
 const app = express()
-const port = process.env.PORT || 5000
+const port = PORT || 5000
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.info('Call to API: ', req.url);

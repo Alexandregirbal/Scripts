@@ -1,13 +1,13 @@
 import HttpException from "Exceptions/http.exceptions";
 import { Request, Response, NextFunction } from "express";
-require('dotenv').config()
+import {TOKEN} from '../config'
 const jwt = require('jsonwebtoken');
 
 export default async (req: Request, res: Response, next: NextFunction) => {  
     try {
         const token: string = req.headers.authorization?.split(' ')[1] as string
         try {
-            const decoded = jwt.verify(token , process.env.TOKEN_SECRET)
+            const decoded = jwt.verify(token , TOKEN.secret)
             req.token = decoded;
             return next();
             
