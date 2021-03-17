@@ -12,12 +12,14 @@
     "test": "test"
   },
   "_moduleAliases": {
-    "Services": "dist/Services",
-    "Middlewares": "dist/Middlewares"
+    "Middlewares": "dist/Middlewares",
+    "Exceptions": "dist/Exceptions",
+    "Services": "dist/Services"
   },
   "author": "Alexandre Girbal",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",

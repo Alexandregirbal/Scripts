@@ -1,5 +1,5 @@
-export default async (req: any, res: any) => {
-    console.log(req.user);
-        
-    return res.status(200).send(req.user)
+import { Request, Response } from "express";
+
+export default async (req: Request, res: Response) => {    
+    return res.status(200).send(req.token)
 }
