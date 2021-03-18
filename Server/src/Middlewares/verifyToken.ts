@@ -1,18 +1,32 @@
 import HttpException from "Exceptions/http.exceptions";
 import { Request, Response, NextFunction } from "express";
 import {TOKEN} from '../config'
-const jwt = require('jsonwebtoken');
+const memoize = require('fast-memoize')
+const sleep = (milliseconds: number) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+const decodeToken = async (token: string | undefined, secret?: string) => {
+    try{
+        const jwt = require('jsonwebtoken');
+        const decoded = jwt.verify(token , TOKEN.secret)
+        // await sleep(1000) verify that user exists, admin rights, ...
+        return decoded
+    } catch(error) {
+        throw error
+    }
+}
+const memo_decodeToken = memoize(decodeToken)
 
-export default async (req: Request, res: Response, next: NextFunction) => {  
+export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         const token: string = req.headers.authorization?.split(' ')[1] as string
         try {
-            const decoded = jwt.verify(token , TOKEN.secret)
+            const decoded = await memo_decodeToken(token , TOKEN.secret)
             req.token = decoded;
             return next();
             
         } catch (error) {
-            console.info('Error name: ',error.name);
+            console.info('Error name: ', error.name);
             let httpError = new HttpException(401,"Authentication token error")
             if (error.name === 'TokenExpiredError'){
                 //use var because function scope needed for this case
