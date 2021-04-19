@@ -22,13 +22,13 @@ def annotatePDF(pathToPDF):
         #Request number
         a.add_annotation(
             'text',
-            Location(x1=1.37*72, y1=8.23*72, x2=3.58*72, y2=8.40*72, page=0),
+            Location(x1=1.37*72, y1=8.23*72, x2=3.7*72, y2=8.40*72, page=0),
             Appearance(content= date+'-'+randomNumber1+'-'+randomNumber2, font_size=9, fill=(0,0,0), line_spacing=1.65),
         )
         #name and date of birth
         a.add_annotation(
             'text',
-            Location(x1=0.73*72, y1=8*72, x2=2.1*72, y2=8.3*72, page=0),
+            Location(x1=0.73*72, y1=8*72, x2=2.5*72, y2=8.3*72, page=0),
             Appearance(content= lastName.upper() + ' le : ' + birthDate, font_size=9, fill=(0,0,0), line_spacing=1.5),
         )
         #PrelevementDateTime
@@ -51,7 +51,7 @@ def annotatePDF(pathToPDF):
         )
 
         #Create a new file
-        a.write(pathToPDF.replace('inputs','outputs'))
+        a.write(pathToPDF.replace('inputs','outputs').split('.pdf')[0] + '_' + firstName + '_' + lastName + '.pdf')
         return 'Done'
     except Exception as e:
         return e
