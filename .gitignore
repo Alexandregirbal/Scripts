@@ -5,3 +5,9 @@
 */node_modules
 */dist
 .env
+
+#Python
+*.pyc
+*/venv
+
+*.deb
