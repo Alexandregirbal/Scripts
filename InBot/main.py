@@ -11,8 +11,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from config import *
 import downloadImages as download
-import utils as u
+import utils
 from decorators import Perf
+import directMessages
 
 
 def searchByTag(driver, tag, n):
@@ -28,19 +29,33 @@ def searchByTag(driver, tag, n):
     my_link.click()
 
 @Perf
-def main(tag, maxImages, isClosing):
+def downloadImagesByTag(tag, maxImages, isClosing):
     driver = webdriver.Firefox()
     driver.get("https://www.instagram.com/")
     
-    u.login(driver, username, password)
+    utils.login(driver, username, password)
     searchByTag(driver, tag, 1)
-    u.scroll(driver,1)
+    utils.scroll(driver,1)
     #target all the link elements on the page
-    print(f'Downloaded {download.downloadImages(driver, maxImages, tag)} images')
+    numberOfImagesDownloaded = download.downloadImages(driver, maxImages, tag)
+    print(f'Downloaded {numberOfImagesDownloaded} images')
     if isClosing:
-        u.end(driver,1)
+        utils.end(driver,1)
 
-main("amsterdam", 1, True)
+# downloadImagesByTag("rotterdam", 10, True)
 
-#TODO delete duplicates, comment every picture with a word in a selection like 'nice, wow, where did you take that one...'
-#TODO follow unfollow sendmessage
+def main():
+    driver = webdriver.Firefox()
+    driver.get("https://www.instagram.com/direct/inbox/")
+    utils.login(driver, username, password)
+    directMessages.selectConversation(driver, 1)
+
+    # utils.end(driver,5)
+
+main()
+
+
+#TODO send private message
+#TODO follow / unfollow
+#TODO like picture
+#TODO comment picture
