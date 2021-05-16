@@ -1,4 +1,4 @@
-import HttpException from "Exceptions/http.exceptions";
+import HttpException from "Exceptions/http";
 import { Request, Response, NextFunction } from "express";
 import {TOKEN} from '../config'
 const memoize = require('fast-memoize')
@@ -22,14 +22,13 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const token: string = req.headers.authorization?.split(' ')[1] as string
         try {
             const decoded = await memo_decodeToken(token , TOKEN.secret)
-            req.token = decoded;
+            req.user = decoded.user;
             return next();
             
         } catch (error) {
             console.info('Error name: ', error.name);
             let httpError = new HttpException(401,"Authentication token error")
             if (error.name === 'TokenExpiredError'){
-                //use var because function scope needed for this case
                 httpError = new HttpException(401,"Token expired")
             }            
             return next(httpError)

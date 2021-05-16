@@ -1,18 +1,31 @@
 const jwt = require('jsonwebtoken');
 import {TOKEN} from '../../config'
+import { UserCredentials, UserData } from './interfaces';
 
-export interface Credentials {
-    firstname?: string;
-    lastname?: string;
-    admin?: boolean;
-}
-export default async (credentials:Credentials):Promise<any> => {
-    let data = {...credentials}
-    if (credentials.firstname === 'Alexandre' && credentials.lastname === 'Girbal'){
-        data = {...data, admin: true}
+const mockUserData = (credentials:UserCredentials) => {
+    //call to db
+    if (credentials.email === 'alexandre.girbal.pro@gmail.com' && credentials.password === 'Test123') {
+        return  {
+            firstname: "Alexandre",
+            lastname: "Girbal",
+            email: "alexandre.girbal.pro@gmail.com",
+            company: "Lox",
+            accessRights: [],
+            admin: true,
+        }
+    } else {
+        return undefined
     }
-    const token = jwt.sign({
-        user: data
-      }, TOKEN.secret, { expiresIn: '1h' });
-    return token
+}
+
+export default async (credentials:UserCredentials):Promise<string> => {
+    let userData: UserData | undefined = mockUserData(credentials)
+    if (!userData) {
+        return ''
+    } else {
+        const token = jwt.sign({
+            user: userData
+          }, TOKEN.secret, { expiresIn: '1h' });
+        return token
+    }
 }

@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import HttpException from "Exceptions/http.exceptions";
+import HttpException from "Exceptions/http";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
-    if (req.token.user.admin){
+    if (req.user.admin){
         return next();
     }
     else {
