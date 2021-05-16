@@ -1,5 +1,10 @@
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
+const router = express.Router({ mergeParams: true });
+import generateApiKey from '../User/GenerateAPIKey'
 
-export default async (req: Request, res: Response) => {    
-    return res.status(200).send(req.user)
-}
+router.get("/", (req: Request, res: Response) => {
+    return res.status(201).send({message: "Welcome to the user API."});
+})
+router.get("/generateApiKey", generateApiKey);
+
+export default router;
