@@ -1,8 +1,8 @@
-from login import get_credentials, login
 import time
 import os
+from datetime import datetime
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from login import get_credentials, login
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -48,7 +48,7 @@ def main():
         driver.find_elements_by_css_selector(".mdi-action-search")[0].click()
         time.sleep(2)
         while True:
-            print(time.now())
+            print(datetime.now())
             driver.refresh()
             search_results = driver.find_elements_by_css_selector(".rowSearchResultRoom > div")
             windows = 0
