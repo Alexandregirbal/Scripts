@@ -47,29 +47,33 @@ def main():
         driver.get("https://kamernet.nl/en/account/alerts")
         driver.find_elements_by_css_selector(".mdi-action-search")[0].click()
         time.sleep(2)
+        windows = 0
         while True:
-            print(datetime.now())
-            driver.refresh()
-            search_results = driver.find_elements_by_css_selector(".rowSearchResultRoom > div")
-            windows = 0
-            for room in search_results:
-                room_text = room.text.split("\n")
-                if room_text[0] in ['Top ad','New!']:
-                    offset = 1
-                else : offset = 0
-                name = room_text[0+offset]
-                city = room_text[1+offset].split(" - ")[0]
-                price = room_text[2+offset].split(",")[0].replace(" ", "")
-                id = f"{name}-{city}-{price}"
-                # print(id)
+            try: 
+                print(datetime.now())
+                driver.refresh()
+                search_results = driver.find_elements_by_css_selector(".rowSearchResultRoom > div")
+                for room in search_results:
+                    room_text = room.text.split("\n")
+                    if room_text[0] in ['Top ad','New!']:
+                        offset = 1
+                    else : offset = 0
+                    name = room_text[0+offset]
+                    city = room_text[1+offset].split(" - ")[0]
+                    price = room_text[2+offset].split(",")[0].replace(" ", "")
+                    id = f"{name}-{city}-{price}"
+                    # print(id)
+                    
+                    if (not id in rooms_already_seen) and city == "Rotterdam":
+                        print("  New room detected ! Sending message to", id)
+                        room.click()
+                        driver.switch_to.window(driver.window_handles[windows+1])
+                        send_message(driver, id, MESSAGE)
+                        driver.switch_to.window(driver.window_handles[0])
+                        windows += 1
+            except Exception as e:
+                print(e)
                 
-                if (not id in rooms_already_seen) and city == "Rotterdam":
-                    print("  New room detected ! Sending message to", id)
-                    room.click()
-                    driver.switch_to.window(driver.window_handles[windows+1])
-                    send_message(driver, id, MESSAGE)
-                    driver.switch_to.window(driver.window_handles[0])
-                    windows += 1
             time.sleep(10)
         
 if __name__ == "__main__":
