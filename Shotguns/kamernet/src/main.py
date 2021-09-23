@@ -36,12 +36,7 @@ def send_message(driver: webdriver, id: str, message: str, use_owner_name: bool=
         csv_file.write(id)
 
 def main():
-    rooms_already_seen = []
-    with open(rooms_already_seen_file_path,"r") as file:
-        for line in file.readlines():
-            rooms_already_seen.append(line.strip())
     username, password = get_credentials()
-    
     with webdriver.Chrome(executable_path=os.path.join(ROOT_PATH, '..', "chromedriver")) as driver:
         driver = login(driver, username, password)
         driver.get("https://kamernet.nl/en/account/alerts")
@@ -49,6 +44,11 @@ def main():
         time.sleep(2)
         windows = 0
         while True:
+            rooms_already_seen = []
+            with open(rooms_already_seen_file_path,"r") as file:
+                for line in file.readlines():
+                    rooms_already_seen.append(line.strip())
+            # print("Rooms already seen:\n",rooms_already_seen)
             try: 
                 print(datetime.now())
                 driver.refresh()
@@ -58,13 +58,13 @@ def main():
                     if room_text[0] in ['Top ad','New!']:
                         offset = 1
                     else : offset = 0
-                    name = room_text[0+offset]
-                    city = room_text[1+offset].split(" - ")[0]
+                    name = room_text[0+offset].replace(" ","_")
+                    city = room_text[1+offset].split(" - ")[0].replace(" ","_")
                     price = room_text[2+offset].split(",")[0].replace(" ", "")
                     id = f"{name}-{city}-{price}"
                     # print(id)
                     
-                    if (not id in rooms_already_seen) and city == "Rotterdam":
+                    if (not id in rooms_already_seen) and city in ["Rotterdam","Delft"]:
                         print("  New room detected ! Sending message to", id)
                         room.click()
                         driver.switch_to.window(driver.window_handles[windows+1])
