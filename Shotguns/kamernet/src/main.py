@@ -14,6 +14,7 @@ I can do a viewing at any time this week, just let me know please.
 Kind regards,
 Alexandre Girbal
 """
+CITIES = ["Rotterdam","Delft"]
 
 rooms_already_seen_file_path = os.path.join(ROOT_PATH,"assets/rooms_already_seen.csv")
 
@@ -55,7 +56,7 @@ def main():
                 search_results = driver.find_elements_by_css_selector(".rowSearchResultRoom > div")
                 for room in search_results:
                     room_text = room.text.split("\n")
-                    if room_text[0] in ['Top ad','New!']:
+                    if room_text[0].strip() in ['Top ad','New!','Student House']:
                         offset = 1
                     else : offset = 0
                     name = room_text[0+offset].replace(" ","_")
@@ -64,7 +65,7 @@ def main():
                     id = f"{name}-{city}-{price}"
                     # print(id)
                     
-                    if (not id in rooms_already_seen) and city in ["Rotterdam","Delft"]:
+                    if (not id in rooms_already_seen) and city in CITIES:
                         print("  New room detected ! Sending message to", id)
                         room.click()
                         driver.switch_to.window(driver.window_handles[windows+1])
