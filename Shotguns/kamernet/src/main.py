@@ -8,13 +8,21 @@ ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 MESSAGE = """
 Hello {owner_name},
-My name is Alexandre, and I just accepted a job in Rotterdam as a software engineer. Therefore I am looking for an apartment in the city and yours looks great!
-I can do a viewing at any time this week, just let me know please.
+I am a young software engineer working since the 1st of September in Rotterdam. As you may know the renting situation in the city is a bit complicated and I have been struggling finding a good place so far. Therefore I am still looking for an apartment or a room in the city and yours corresponds to what I am looking for!
+I can do a viewing at any time this week, just let me know please. If it is not possible for any reason (working situation, gender, age, nationality, ...), I would love to get at least a negativ answer so I can handle my searching process a bit better.
 
 Kind regards,
 Alexandre Girbal
+
+PS: Here is a simple recap about me:
+  - 23 years old
+  - French
+  - Working
+  - Good income and guarantors if needed
+  - Not smoking
+
 """
-CITIES = ["Rotterdam","Delft"]
+CITIES = ["Rotterdam","Delft","Schiedam"]
 
 rooms_already_seen_file_path = os.path.join(ROOT_PATH,"assets/rooms_already_seen.csv")
 
